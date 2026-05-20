@@ -1,0 +1,9 @@
+{
+  "api_key": "sk-b5d8ae54e37c48c18fcaa6b7f64f64d7",
+  "bundled_api_key": null,
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "skills_paths": [
+    "/Users/jobo/Library/Application Support/com.yourapp.toolbox/skills"
+  ]
+}

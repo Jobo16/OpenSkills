@@ -1,6 +1,7 @@
 use serde::Serialize;
 use std::sync::{Arc, Mutex};
 use tauri::{AppHandle, Manager};
+use tauri_plugin_shell::process::CommandChild;
 use tauri_plugin_shell::ShellExt;
 
 #[derive(Clone, Serialize)]
@@ -13,6 +14,7 @@ pub struct ServerInfo {
 pub struct SidecarManager {
     app_handle: Arc<Mutex<Option<AppHandle>>>,
     server_info: Arc<Mutex<Option<ServerInfo>>>,
+    child_process: Arc<Mutex<Option<CommandChild>>>,
 }
 
 impl SidecarManager {
@@ -20,6 +22,7 @@ impl SidecarManager {
         Self {
             app_handle: Arc::new(Mutex::new(None)),
             server_info: Arc::new(Mutex::new(None)),
+            child_process: Arc::new(Mutex::new(None)),
         }
     }
 
@@ -49,7 +52,7 @@ impl SidecarManager {
         let data_dir_str = app_data_dir.to_string_lossy().to_string();
 
         // 通过 shell 插件启动 sidecar，设置隔离环境变量和工作目录
-        let (mut rx, _child) = handle
+        let (mut rx, child) = handle
             .shell()
             .sidecar("opencode")
             .map_err(|e| format!("Failed to create sidecar command: {}", e))?
@@ -65,6 +68,9 @@ impl SidecarManager {
             .current_dir(&app_data_dir)
             .spawn()
             .map_err(|e| format!("Failed to spawn opencode sidecar: {}", e))?;
+
+        // 保存子进程引用，以便后续停止
+        *self.child_process.lock().unwrap() = Some(child);
 
         // 从 stdout 解析 server URL
         let mut url = None;
@@ -113,9 +119,12 @@ impl SidecarManager {
         self.server_info.lock().unwrap().clone()
     }
 
-    /// 重启 server（skills 变更后调用）
+    /// 重启 server（skills/配置变更后调用）
     pub async fn restart(&self, config_json: &str) -> Result<ServerInfo, String> {
-        // 先停止旧 server
+        // 先停止旧 server 进程
+        if let Some(child) = self.child_process.lock().unwrap().take() {
+            let _ = child.kill();
+        }
         *self.server_info.lock().unwrap() = None;
         // 重新启动
         self.start(config_json).await

@@ -348,6 +348,30 @@ impl Default for AppConfig {
     }
 }
 
+/// 可用的模型列表
+pub fn get_available_models() -> Vec<serde_json::Value> {
+    vec![
+        serde_json::json!({
+            "id": "opencode/deepseek-v4-flash-free",
+            "name": "DeepSeek V4 Flash (免费)",
+            "provider": "opencode",
+            "requiresApiKey": false
+        }),
+        serde_json::json!({
+            "id": "deepseek-v4-flash",
+            "name": "DeepSeek V4 Flash",
+            "provider": "deepseek",
+            "requiresApiKey": true
+        }),
+        serde_json::json!({
+            "id": "deepseek-chat",
+            "name": "DeepSeek Chat",
+            "provider": "deepseek",
+            "requiresApiKey": true
+        }),
+    ]
+}
+
 /// 支持的 provider 配置
 pub fn get_provider_config(provider: &str, api_key: &str) -> serde_json::Value {
     match provider {

@@ -34,6 +34,8 @@ pub fn run() {
             commands::import_skills_zip,
             commands::get_config,
             commands::save_config,
+            commands::restart_server,
+            commands::get_models,
             commands::save_file_to_temp,
         ])
         .run(tauri::generate_context!())

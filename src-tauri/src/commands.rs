@@ -113,6 +113,25 @@ pub fn save_config(
     config.save_to_disk()
 }
 
+/// 重启 server（配置变更后调用）
+#[tauri::command]
+pub async fn restart_server(
+    sidecar: State<'_, SidecarManager>,
+    config: State<'_, Mutex<AppConfig>>,
+) -> Result<ServerInfo, String> {
+    let config_json = {
+        let config = config.lock().map_err(|e| e.to_string())?;
+        config.to_opencode_json()
+    };
+    sidecar.restart(&config_json).await
+}
+
+/// 获取可用模型列表
+#[tauri::command]
+pub fn get_models() -> Result<Vec<serde_json::Value>, String> {
+    Ok(crate::config::get_available_models())
+}
+
 /// 保存文件到临时目录，返回 file:// URL
 #[tauri::command]
 pub fn save_file_to_temp(

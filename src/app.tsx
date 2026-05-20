@@ -5,6 +5,7 @@ import { useOpencode } from "./hooks/useOpencode"
 import { Sidebar } from "./components/layout/Sidebar"
 import { SessionPage } from "./components/session/SessionPage"
 import { SkillPicker } from "./components/session/SkillPicker"
+import { SettingsModal } from "./components/settings/SettingsModal"
 import { listSkills as tauriListSkills } from "./lib/tauri"
 
 function SessionRoute() {
@@ -28,6 +29,7 @@ function SessionRoute() {
 
   const [skills, setSkills] = useState<any[]>([])
   const [showSkillPicker, setShowSkillPicker] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
   const [pendingCommand, setPendingCommand] = useState<string | null>(null)
 
   // 加载 skills（统一通过 Tauri 后端读取，与删除操作一致）
@@ -116,6 +118,7 @@ function SessionRoute() {
         onNewSession={handleNewSession}
         onUpdateTitle={updateSessionTitle}
         onDeleteSession={deleteSession}
+        onOpenSettings={() => setShowSettings(true)}
       />
       <SessionPage
         sessionId={sessionId}
@@ -134,6 +137,12 @@ function SessionRoute() {
           onSelect={handleSelectCommand}
           onClose={() => setShowSkillPicker(false)}
           onRefresh={loadSkills}
+        />
+      )}
+      {showSettings && (
+        <SettingsModal
+          onClose={() => setShowSettings(false)}
+          onSaved={loadSkills}
         />
       )}
     </div>
