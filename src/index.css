@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* Markdown 渲染样式 */
+.prose {
+  line-height: 1.7;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.prose p {
+  margin: 0.5em 0;
+}
+
+.prose p:first-child {
+  margin-top: 0;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+.prose pre {
+  background: #1e1e2e;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin: 0.75em 0;
+  max-width: 100%;
+}
+
+.prose pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+.prose code {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 0.25rem;
+  padding: 0.15em 0.35em;
+  font-size: 0.875em;
+}
+
+.dark .prose code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.prose li {
+  margin: 0.25em 0;
+}
+
+.prose blockquote {
+  border-left: 3px solid #d1d5db;
+  padding-left: 1em;
+  margin: 0.75em 0;
+  color: #6b7280;
+}
+
+.dark .prose blockquote {
+  border-left-color: #4b5563;
+  color: #9ca3af;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-weight: 600;
+  margin: 1em 0 0.5em;
+}
+
+.prose h1 { font-size: 1.25em; }
+.prose h2 { font-size: 1.125em; }
+.prose h3 { font-size: 1em; }
+
+.prose a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.prose table {
+  border-collapse: collapse;
+  margin: 0.75em 0;
+  font-size: 0.875em;
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid #e5e7eb;
+  padding: 0.4em 0.75em;
+}
+
+.dark .prose th,
+.dark .prose td {
+  border-color: #374151;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 1em 0;
+}
+
+.dark .prose hr {
+  border-top-color: #374151;
+}

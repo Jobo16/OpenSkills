@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Commit message hook
+# This hook validates commit messages follow Conventional Commits
+
+commit_msg_file="$1"
+commit_msg=$(cat "$commit_msg_file")
+
+# Conventional Commits pattern
+pattern="^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .{1,100}"
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+    echo "Invalid commit message format!"
+    echo ""
+    echo "Commit message must follow Conventional Commits format:"
+    echo ""
+    echo "  <type>(<scope>): <subject>"
+    echo ""
+    echo "Types:"
+    echo "  feat:     A new feature"
+    echo "  fix:      A bug fix"
+    echo "  docs:     Documentation only changes"
+    echo "  style:    Changes that do not affect the meaning of the code"
+    echo "  refactor: A code change that neither fixes a bug nor adds a feature"
+    echo "  test:     Adding missing tests or correcting existing tests"
+    echo "  chore:    Changes to the build process or auxiliary tools"
+    echo "  perf:     A code change that improves performance"
+    echo "  ci:       Changes to CI configuration files and scripts"
+    echo "  build:    Changes that affect the build system or external dependencies"
+    echo "  revert:   Reverts a previous commit"
+    echo ""
+    echo "Examples:"
+    echo "  feat: add user login"
+    echo "  fix(auth): fix login failure"
+    echo "  docs: update README"
+    echo "  refactor: extract utils"
+    echo ""
+    echo "Your commit message:"
+    echo "  $commit_msg"
+    echo ""
+    exit 1
+fi

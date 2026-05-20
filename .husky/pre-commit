@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Pre-commit hook
+# This hook runs before each commit
+
+echo "Running pre-commit checks..."
+
+# Check TypeScript
+echo "Checking TypeScript..."
+bun run check
+
+# Check Rust
+echo "Checking Rust..."
+cd src-tauri
+cargo clippy -- -D warnings
+cargo fmt --check
+cd ..
+
+# Run tests
+echo "Running tests..."
+bun test
+cd src-tauri
+cargo test
+cd ..
+
+# Check formatting
+echo "Checking formatting..."
+bun run format:check
+
+echo "All checks passed!"

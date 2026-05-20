@@ -1,0 +1,48 @@
+# Clippy 配置
+
+# 基本设置
+msrv = "1.70"
+avoid-breaking-exported-api = true
+
+# 代码风格
+cognitive-complexity-threshold = 30
+too-many-lines-threshold = 200
+type-complexity-threshold = 350
+
+# 命名规范
+allowed-idioms = [
+    "extend_one",
+    "extend_with",
+]
+disallowed-names = [
+    "foo",
+    "bar",
+    "baz",
+    "quux",
+]
+
+# 导入
+await-holding-invalid-types = [
+    "std::sync::MutexGuard",
+    "tokio::sync::MutexGuard",
+    "parking_lot::MutexGuard",
+    "std::sync::RwLockReadGuard",
+    "std::sync::RwLockWriteGuard",
+    "tokio::sync::RwLockReadGuard",
+    "tokio::sync::RwLockWriteGuard",
+    "parking_lot::RwLockReadGuard",
+    "parking_lot::RwLockWriteGuard",
+]
+
+# 警告
+warn-on-all-wildcard-imports = false
+allow-wildcard-imports = true
+
+# 性能
+vec-box-size-threshold = 4096
+
+# 样式
+single-char-binding-names-threshold = 4
+
+# 复杂度
+too-many-arguments-threshold = 10

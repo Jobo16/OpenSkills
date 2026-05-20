@@ -1,0 +1,13 @@
+[
+  {
+    "label": "AI 工具箱: Local Up",
+    "command": "bun",
+    "args": ["run", "tauri:dev"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "show_summary": true,
+    "show_command": true
+  }
+]
