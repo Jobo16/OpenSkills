@@ -35,11 +35,7 @@
       "icons/icon.ico"
     ],
     "resources": [
-      "resources/skills/hello-world/SKILL.md",
-      "resources/skills/question-bank-uploader/SKILL.md",
-      "resources/skills/question-bank-uploader/scripts/parse_and_upload.py",
-      "resources/skills/code-reviewer/SKILL.md",
-      "resources/skills/data-processor/SKILL.md"
+      "resources/skills/create-skill/SKILL.md"
     ]
   }
 }
