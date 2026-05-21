@@ -111,14 +111,14 @@ impl AppConfig {
             .filter(|p| p.exists());
 
         if let Some(dir) = bundled_skills_dir {
-            Self::scan_skills_dir(&dir, &mut skills)?;
+            Self::scan_skills_dir(&dir, &mut skills, SkillSource::Bundled)?;
         }
 
         // 扫描额外配置的 skills 路径
         for path in &self.skills_paths {
             let dir = PathBuf::from(path);
             if dir.exists() {
-                Self::scan_skills_dir(&dir, &mut skills)?;
+                Self::scan_skills_dir(&dir, &mut skills, SkillSource::User)?;
             }
         }
 
@@ -126,7 +126,7 @@ impl AppConfig {
     }
 
     /// 扫描目录中的 skills
-    fn scan_skills_dir(dir: &PathBuf, skills: &mut Vec<SkillInfo>) -> Result<(), String> {
+    fn scan_skills_dir(dir: &PathBuf, skills: &mut Vec<SkillInfo>, source: SkillSource) -> Result<(), String> {
         let entries = fs::read_dir(dir).map_err(|e| e.to_string())?;
 
         for entry in entries {
@@ -140,7 +140,8 @@ impl AppConfig {
                         fs::read_to_string(&skill_md).map_err(|e| e.to_string())?;
 
                     // 解析 frontmatter
-                    if let Some(skill) = Self::parse_skill_md(&content, &path) {
+                    if let Some(mut skill) = Self::parse_skill_md(&content, &path) {
+                        skill.source = source.clone();
                         skills.push(skill);
                     }
                 }
