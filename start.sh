@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# AI Toolbox 开发启动脚本
+# OpenSkill 开发启动脚本
 # 用法: ./start.sh [命令]
 # 命令:
 #   start  - 启动应用（默认）
@@ -11,7 +11,7 @@
 set -e
 
 PROJECT_DIR="/Users/jobo/projects/opencode-dev/my-product"
-LOG_FILE="/tmp/ai-toolbox.log"
+LOG_FILE="/tmp/openskill.log"
 
 # 颜色输出
 RED='\033[0;31m'
@@ -23,7 +23,7 @@ NC='\033[0m' # No Color
 stop_app() {
     echo -e "${YELLOW}Stopping application...${NC}"
     pkill -9 -f "vite" 2>/dev/null || true
-    pkill -9 -f "ai-toolbox" 2>/dev/null || true
+    pkill -9 -f "openskill" 2>/dev/null || true
     sleep 2
 
     # 清理端口占用
@@ -41,7 +41,7 @@ start_app() {
     cargo tauri dev 2>&1 | tee "$LOG_FILE" &
     sleep 35
 
-    if ps aux | grep ai-toolbox | grep -v grep > /dev/null; then
+    if ps aux | grep openskill | grep -v grep > /dev/null; then
         echo -e "${GREEN}✓ Application started successfully${NC}"
         echo -e "Access: http://localhost:1420/"
         echo -e "Logs: tail -f $LOG_FILE"
@@ -56,7 +56,7 @@ start_app() {
 clean_all() {
     echo -e "${YELLOW}Cleaning up all processes...${NC}"
     pkill -9 -f "vite" 2>/dev/null || true
-    pkill -9 -f "ai-toolbox" 2>/dev/null || true
+    pkill -9 -f "openskill" 2>/dev/null || true
     pkill -9 -f "cargo" 2>/dev/null || true
     pkill -9 -f "node" 2>/dev/null || true
     sleep 3
@@ -72,7 +72,7 @@ clean_all() {
 # 显示状态
 show_status() {
     echo -e "${YELLOW}Application Status:${NC}"
-    if ps aux | grep ai-toolbox | grep -v grep > /dev/null; then
+    if ps aux | grep openskill | grep -v grep > /dev/null; then
         echo -e "${GREEN}✓ Running${NC}"
     else
         echo -e "${RED}✗ Not running${NC}"
@@ -80,7 +80,7 @@ show_status() {
 
     echo ""
     echo -e "${YELLOW}Processes:${NC}"
-    ps aux | grep -E "(ai-toolbox|vite)" | grep -v grep || echo "No processes found"
+    ps aux | grep -E "(openskill|vite)" | grep -v grep || echo "No processes found"
 }
 
 # 显示日志

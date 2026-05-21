@@ -1,6 +1,6 @@
 # 贡献指南
 
-感谢你对 AI 工具箱项目的关注！本文档将帮助你了解如何参与项目开发。
+感谢你对 OpenSkill 项目的关注！本文档将帮助你了解如何参与项目开发。
 
 ## 开发环境搭建
 
@@ -80,7 +80,7 @@ bun test
 cargo test
 
 # Tauri 测试
-cargo test -p ai-toolbox
+cargo test -p openskill
 ```
 
 ### 5. 提交代码
@@ -185,7 +185,7 @@ cargo test --test integration
 
 ```bash
 # 运行 Tauri 测试
-cargo test -p ai-toolbox
+cargo test -p openskill
 ```
 
 ## 文档指南

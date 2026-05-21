@@ -1,8 +1,8 @@
-# AI 工具箱 - Claude 开发助手指南
+# OpenSkill - Claude 开发助手指南
 
 ## 项目背景
 
-这是一个基于 Tauri v2 + React + Tailwind CSS 的桌面应用，通过 OpenCode SDK 集成 AI 能力。用户可以通过自然语言指令完成各种任务，如题库上传、代码审查、数据处理等。
+这是 OpenSkill - 一个可扩展的 AI Skills 桌面应用，通过 Skills Marketplace 扩展 AI 能力。用户可以通过自然语言指令完成各种任务，如题库上传、代码审查、数据处理等。
 
 ## 技术架构
 

@@ -1,8 +1,8 @@
-# AI 工具箱 - 开发规范
+# OpenSkill - 开发规范
 
 ## 项目概述
 
-基于 Tauri v2 + React + Tailwind CSS 的桌面应用，通过 OpenCode SDK 集成 AI 能力。
+OpenSkill - 可扩展的 AI Skills 桌面应用，通过 Skills Marketplace 扩展 AI 能力。
 
 ## 技术栈
 
@@ -53,7 +53,7 @@ my-product/
 
 ### 命名约定
 
-- Crate 名称以 `ai-toolbox-` 为前缀
+- Crate 名称以 `openskill-` 为前缀
 - 使用 `snake_case` 作为变量和函数名
 - 使用 `PascalCase` 作为类型和结构体名
 - 使用 `SCREAMING_SNAKE_CASE` 作为常量
@@ -201,7 +201,7 @@ bun test
 cargo test
 
 # Tauri 测试
-cargo test -p ai-toolbox
+cargo test -p openskill
 ```
 
 ### 构建

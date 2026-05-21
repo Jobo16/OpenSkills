@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="512" cy="512" r="460" fill="#2563EB"/>
+
+  <!-- Skill bracket left -->
+  <path d="M380 300L280 512L380 724" stroke="white" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Skill bracket right -->
+  <path d="M644 300L744 512L644 724" stroke="white" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Center slash -->
+  <path d="M562 280L462 744" stroke="white" stroke-width="48" stroke-linecap="round"/>
+
+  <!-- Open circle accent -->
+  <circle cx="512" cy="512" r="180" stroke="#60A5FA" stroke-width="32" fill="none"/>
+
+  <!-- Inner dot -->
+  <circle cx="512" cy="512" r="24" fill="#60A5FA"/>
+</svg>

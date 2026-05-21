@@ -138,7 +138,7 @@ pub fn save_file_to_temp(
     file_name: String,
     file_content: Vec<u8>,
 ) -> Result<String, String> {
-    let temp_dir = std::env::temp_dir().join("ai-toolbox-uploads");
+    let temp_dir = std::env::temp_dir().join("openskill-uploads");
     std::fs::create_dir_all(&temp_dir).map_err(|e| e.to_string())?;
 
     let file_path = temp_dir.join(&file_name);

@@ -29,23 +29,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "ai-toolbox"
-version = "1.0.0"
-dependencies = [
- "chrono",
- "reqwest 0.12.28",
- "serde",
- "serde_json",
- "sha2",
- "tauri",
- "tauri-build",
- "tauri-plugin-shell",
- "tokio",
- "uuid",
- "zip",
-]
-
-[[package]]
 name = "alloc-no-stdlib"
 version = "2.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2350,6 +2333,23 @@ dependencies = [
  "is-wsl",
  "libc",
  "pathdiff",
+]
+
+[[package]]
+name = "openskill"
+version = "1.0.0"
+dependencies = [
+ "chrono",
+ "reqwest 0.12.28",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-shell",
+ "tokio",
+ "uuid",
+ "zip",
 ]
 
 [[package]]

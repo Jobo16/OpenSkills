@@ -1,6 +1,6 @@
 [
   {
-    "label": "AI 工具箱: Local Up",
+    "label": "OpenSkill: Local Up",
     "command": "bun",
     "args": ["run", "tauri:dev"],
     "cwd": "$ZED_WORKTREE_ROOT",

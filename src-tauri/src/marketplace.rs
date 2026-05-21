@@ -331,7 +331,7 @@ pub async fn install_skill(
     let zip_bytes = download_skill_zip(repo_url, &remote_skill.path).await?;
     eprintln!("✅ Download complete ({} bytes)", zip_bytes.len());
 
-    let temp_dir = std::env::temp_dir().join("ai-toolbox-skills");
+    let temp_dir = std::env::temp_dir().join("openskill-skills");
     fs::create_dir_all(&temp_dir).map_err(|e| e.to_string())?;
 
     let zip_path = temp_dir.join(format!("{}-{}.zip", skill_id, version));

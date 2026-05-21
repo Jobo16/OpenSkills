@@ -1,50 +1,37 @@
-# AI 工具箱
+# OpenSkill
 
-基于 Tauri v2 + React + Tailwind CSS 的桌面应用，通过 OpenCode SDK 集成 AI 能力。
+可扩展的 AI Skills 桌面应用，通过 Skills Marketplace 扩展 AI 能力。
 
 ## 特性
 
-- **开箱即用**: 预配置 API key 和 Skills，安装即可使用
-- **多 Skill 支持**: 内置多种 Skill，覆盖不同场景
-- **Skills Marketplace**: 自动检查更新，一键安装新 Skills
-- **AI 辅助创建**: 使用 AI 创建自定义 Skills
-- **文件上传**: 支持拖放上传文件
-- **实时进度**: 实时展示 AI 处理进度
-- **可扩展**: 易于添加新的 Skill
-- **App 级别隔离**: 配置、Skills、数据完全隔离，不影响用户本机环境
+- **Skills Marketplace**: 从 GitHub 仓库浏览和安装 Skills
+- **自动更新检测**: 自动检查已安装 Skills 的更新
+- **网络代理支持**: 自动检测代理配置，支持中国大陆网络环境
+- **内置 Skill**: 包含 create-skill，帮助用户创建新 Skills
+- **极简设计**: 简洁实用的用户界面
+- **开箱即用**: 无需复杂配置，安装即可使用
+- **跨平台**: 支持 macOS、Windows、Linux
 
-## 内置 Skills
+## 安装
 
-| Skill | 描述 |
-|-------|------|
-| `create-skill` | AI 辅助创建新 Skill |
-| `question-bank-uploader` | 题库上传工具 |
-| `code-reviewer` | 代码审查工具 |
-| `data-processor` | 数据处理工具 |
-| `hello-world` | 简单测试 Skill |
-
-## 快速开始
-
-### 安装
-
-#### macOS
-1. 下载 DMG 文件
+### macOS
+1. 从 [Releases](https://github.com/Jobo16/openskill/releases) 下载 DMG 文件
 2. 双击打开，将应用拖入 Applications 文件夹
 3. 首次运行可能需要在"系统偏好设置 > 安全性与隐私"中允许
 
-#### Windows
-1. 下载 MSI 安装程序
+### Windows
+1. 从 Releases 下载 MSI 安装程序
 2. 双击运行安装向导
 
-#### Linux
-1. 下载 AppImage 或 deb 包
+### Linux
+1. 从 Releases 下载 AppImage 或 deb 包
 2. 安装并运行
 
-### 使用
+## 使用
 
 1. 启动应用
 2. 首次使用需要配置 API key（可选，已有内置免费模型）
-3. 点击"导入"按钮导入 Skill（zip 格式）
+3. 点击"Marketplace"浏览和安装 Skills
 4. 选择要使用的 Skill
 5. 上传文件或输入指令
 6. 等待 AI 处理完成

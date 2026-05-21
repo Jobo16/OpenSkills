@@ -1,9 +1,9 @@
 {
-  "name": "ai-toolbox",
+  "name": "openskill",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "基于 Tauri v2 + React + Tailwind CSS 的桌面应用，通过 OpenCode SDK 集成 AI 能力",
+  "description": "OpenSkill - 可扩展的 AI Skills 桌面应用，通过 Skills Marketplace 扩展 AI 能力",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
