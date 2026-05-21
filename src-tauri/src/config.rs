@@ -2,12 +2,22 @@ use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::PathBuf;
 
+#[derive(Clone, Serialize, Deserialize, PartialEq)]
+pub enum SkillSource {
+    Bundled,
+    User,
+    Marketplace,
+}
+
 #[derive(Clone, Serialize, Deserialize)]
 pub struct SkillInfo {
     pub name: String,
     pub description: String,
     pub icon: Option<String>,
     pub path: String,
+    pub version: Option<String>,
+    pub author: Option<String>,
+    pub source: SkillSource,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -17,6 +27,7 @@ pub struct AppConfig {
     pub provider: String,
     pub model: String,
     pub skills_paths: Vec<String>,
+    pub marketplace_url: Option<String>,
     #[serde(skip)]
     app_data_dir: PathBuf,
 }
@@ -295,7 +306,7 @@ impl AppConfig {
     }
 
     /// 解析 SKILL.md 文件
-    fn parse_skill_md(content: &str, path: &PathBuf) -> Option<SkillInfo> {
+    pub fn parse_skill_md(content: &str, path: &PathBuf) -> Option<SkillInfo> {
         // 简单的 frontmatter 解析
         if !content.starts_with("---") {
             return None;
@@ -307,6 +318,8 @@ impl AppConfig {
         let mut name = None;
         let mut description = None;
         let mut icon = None;
+        let mut version = None;
+        let mut author = None;
 
         for line in frontmatter.lines() {
             let line = line.trim();
@@ -316,6 +329,10 @@ impl AppConfig {
                 description = Some(val.trim().to_string());
             } else if let Some(val) = line.strip_prefix("icon:") {
                 icon = Some(val.trim().to_string());
+            } else if let Some(val) = line.strip_prefix("version:") {
+                version = Some(val.trim().to_string());
+            } else if let Some(val) = line.strip_prefix("author:") {
+                author = Some(val.trim().to_string());
             }
         }
 
@@ -324,6 +341,9 @@ impl AppConfig {
             description: description.unwrap_or_default(),
             icon,
             path: path.to_string_lossy().to_string(),
+            version,
+            author,
+            source: SkillSource::User,
         })
     }
 
@@ -332,6 +352,16 @@ impl AppConfig {
         let config_path = self.app_data_dir.join("config.json");
         let json = serde_json::to_string_pretty(self).map_err(|e| e.to_string())?;
         fs::write(&config_path, json).map_err(|e| e.to_string())
+    }
+
+    /// 获取 app data 目录
+    pub fn get_app_data_dir(&self) -> &PathBuf {
+        &self.app_data_dir
+    }
+
+    /// 设置 app data 目录
+    pub fn set_app_data_dir(&mut self, dir: PathBuf) {
+        self.app_data_dir = dir;
     }
 }
 
@@ -343,6 +373,7 @@ impl Default for AppConfig {
             provider: "opencode".to_string(),
             model: "opencode/deepseek-v4-flash-free".to_string(),
             skills_paths: vec![],
+            marketplace_url: None,
             app_data_dir: PathBuf::new(),
         }
     }

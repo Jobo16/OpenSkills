@@ -1,5 +1,6 @@
 mod commands;
 mod config;
+mod marketplace;
 mod sidecar;
 
 use sidecar::SidecarManager;
@@ -37,6 +38,10 @@ pub fn run() {
             commands::restart_server,
             commands::get_models,
             commands::save_file_to_temp,
+            commands::check_for_updates,
+            commands::install_marketplace_skill,
+            commands::set_marketplace_url,
+            commands::get_update_status,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

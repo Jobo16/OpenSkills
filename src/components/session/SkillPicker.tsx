@@ -1,10 +1,12 @@
 import { useRef } from "react"
 import { deleteSkill, importSkillsZip } from "../../lib/tauri"
+import { useUpdates } from "../../hooks/useUpdates"
 
 interface Skill {
   name: string
   description?: string
   location?: string
+  version?: string
 }
 
 interface SkillPickerProps {
@@ -16,6 +18,7 @@ interface SkillPickerProps {
 
 export function SkillPicker({ skills, onSelect, onClose, onRefresh }: SkillPickerProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const { updates } = useUpdates()
 
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -45,6 +48,10 @@ export function SkillPicker({ skills, onSelect, onClose, onRefresh }: SkillPicke
     } catch (err) {
       console.error("Failed to delete skill:", err)
     }
+  }
+
+  const hasUpdate = (skillName: string) => {
+    return updates.some(u => u.skill_id === skillName)
   }
 
   return (
@@ -83,7 +90,14 @@ export function SkillPicker({ skills, onSelect, onClose, onRefresh }: SkillPicke
                 onClick={() => { onSelect(skill.name); onClose() }}
               >
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium">{skill.name}</div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium">{skill.name}</span>
+                    {hasUpdate(skill.name) && (
+                      <span className="px-1.5 py-0.5 text-xs font-semibold text-blue-600 bg-blue-100 rounded">
+                        可更新
+                      </span>
+                    )}
+                  </div>
                   {skill.description && (
                     <div className="text-xs text-gray-400 mt-0.5 truncate">{skill.description}</div>
                   )}

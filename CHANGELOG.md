@@ -5,6 +5,41 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.1.0] - 2026-05-21
+
+### 新增
+- **Skills Marketplace 系统**
+  - 自动检查 Skills 更新
+  - 从 Marketplace 一键安装和更新 Skills
+  - 本地缓存和版本管理
+  - 备份和回滚机制
+  - 校验和验证 (SHA-256)
+- **AI 辅助创建 Skill**
+  - 新增 `create-skill` 内置 Skill
+  - 通过对话自动生成 SKILL.md 格式文档
+  - 支持导出到本地或 Marketplace
+- **新的 UI 组件**
+  - UpdateBadge - 更新通知徽章
+  - 更新指示器在 SkillPicker 中显示
+  - Marketplace URL 配置界面
+- **新的 Hooks**
+  - useUpdates - 管理更新状态和定期检查
+- **后端模块**
+  - marketplace.rs - Marketplace 客户端逻辑
+  - 版本比较和缓存管理
+  - 异步下载和安装流程
+
+### 变更
+- 扩展 SkillInfo 结构体，添加 version、author、source 字段
+- 更新 SKILL.md 格式，支持可选的 marketplace 元数据
+- 优化 Settings 页面，添加 Marketplace URL 配置
+- 更新依赖：添加 reqwest、tokio、chrono、sha2
+
+### 改进
+- 更新检查周期：24 小时自动检查
+- 缓存优先设计：支持离线使用
+- 错误处理：网络错误静默处理，不阻塞用户
+
 ## [1.0.1] - 2026-05-20
 
 ### 修复

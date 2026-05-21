@@ -6,6 +6,8 @@
 
 - **开箱即用**: 预配置 API key 和 Skills，安装即可使用
 - **多 Skill 支持**: 内置多种 Skill，覆盖不同场景
+- **Skills Marketplace**: 自动检查更新，一键安装新 Skills
+- **AI 辅助创建**: 使用 AI 创建自定义 Skills
 - **文件上传**: 支持拖放上传文件
 - **实时进度**: 实时展示 AI 处理进度
 - **可扩展**: 易于添加新的 Skill
@@ -15,6 +17,7 @@
 
 | Skill | 描述 |
 |-------|------|
+| `create-skill` | AI 辅助创建新 Skill |
 | `question-bank-uploader` | 题库上传工具 |
 | `code-reviewer` | 代码审查工具 |
 | `data-processor` | 数据处理工具 |
@@ -86,8 +89,13 @@ my-product/
 │   ├── components/         # UI 组件
 │   │   ├── chat/          # 聊天相关
 │   │   ├── layout/        # 布局组件
-│   │   └── session/       # 会话相关
+│   │   ├── marketplace/   # Marketplace 相关组件
+│   │   ├── session/       # 会话相关
+│   │   └── settings/      # 设置页面
 │   ├── hooks/              # React hooks
+│   │   ├── useOpencode.ts  # OpenCode 服务管理
+│   │   ├── useSession.ts   # 会话管理
+│   │   └── useUpdates.ts   # 更新管理
 │   ├── lib/                # 工具库
 │   │   ├── opencode-sdk/  # OpenCode SDK 客户端
 │   │   ├── opencode.ts    # SDK 封装
@@ -98,6 +106,7 @@ my-product/
 │   │   ├── commands.rs    # Tauri IPC 命令
 │   │   ├── config.rs      # 配置管理
 │   │   ├── lib.rs         # Tauri 入口
+│   │   ├── marketplace.rs # Marketplace 逻辑
 │   │   └── sidecar.rs     # OpenCode sidecar 管理
 │   ├── resources/          # 打包资源
 │   │   └── skills/        # 内置 Skills
@@ -120,15 +129,21 @@ my-product/
 
 ### Skills 配置
 
-Skills 可以通过两种方式添加：
+Skills 可以通过三种方式添加：
 
 1. **内置 Skills**: 位于 `src-tauri/resources/skills/` 目录，构建时自动打包
 2. **用户导入**: 通过应用界面导入 zip 格式的 Skill 包
+3. **Marketplace**: 从 Marketplace 服务器自动下载和安装
 
 添加新的内置 Skill：
 1. 创建目录 `src-tauri/resources/skills/your-skill/`
 2. 创建 `SKILL.md` 文件，包含 YAML frontmatter（name、description）
 3. 重新构建应用
+
+使用 Marketplace：
+1. 在设置中配置 Marketplace URL（可选）
+2. 应用会自动检查可用更新
+3. 点击"更新"按钮安装新版本
 
 ## 文档
 

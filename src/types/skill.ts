@@ -3,6 +3,40 @@ export interface SkillInfo {
   description: string
   icon?: string
   path: string
+  version?: string
+  author?: string
+  source?: 'bundled' | 'user' | 'marketplace'
+}
+
+export interface SkillUpdate {
+  skill_id: string
+  current_version: string
+  latest_version: string
+  changelog: string
+  download_url: string
+  checksum: string
+  size_bytes: number
+  min_app_version?: string
+}
+
+export interface UpdateStatus {
+  available_updates: number
+  last_checked_at?: string
+  marketplace_url?: string
+}
+
+export interface MarketplaceSkill {
+  id: string
+  name: string
+  description: string
+  icon?: string
+  author: string
+  homepage?: string
+  tags: string[]
+  latest_version: string
+  downloads: number
+  created_at: string
+  updated_at: string
 }
 
 export interface SkillMessage {

@@ -147,3 +147,89 @@ pub fn save_file_to_temp(
     // 返回 file:// URL
     Ok(format!("file://{}", file_path.to_string_lossy()))
 }
+
+/// 检查 marketplace 更新
+#[tauri::command]
+pub async fn check_for_updates(
+    config: State<'_, Mutex<AppConfig>>,
+) -> Result<Vec<crate::marketplace::SkillUpdate>, String> {
+    let app_version = env!("CARGO_PKG_VERSION").to_string();
+    let (marketplace_url, app_data_dir) = {
+        let config_guard = config.lock().map_err(|e| e.to_string())?;
+        let url = config_guard.marketplace_url.clone();
+        let dir = config_guard.get_app_data_dir().clone();
+        (url, dir)
+    };
+
+    let mut config_copy = AppConfig::default();
+    config_copy.marketplace_url = marketplace_url;
+    config_copy.set_app_data_dir(app_data_dir);
+
+    crate::marketplace::check_for_updates(&config_copy, &app_version).await
+}
+
+/// 从 marketplace 安装 skill
+#[tauri::command]
+pub async fn install_marketplace_skill(
+    sidecar: State<'_, SidecarManager>,
+    config: State<'_, Mutex<AppConfig>>,
+    skill_id: String,
+    version: String,
+    download_url: String,
+    checksum: String,
+) -> Result<SkillInfo, String> {
+    let (marketplace_url, app_data_dir) = {
+        let config_guard = config.lock().map_err(|e| e.to_string())?;
+        let url = config_guard.marketplace_url.clone();
+        let dir = config_guard.get_app_data_dir().clone();
+        (url, dir)
+    };
+
+    let mut config_copy = AppConfig::default();
+    config_copy.marketplace_url = marketplace_url;
+    config_copy.set_app_data_dir(app_data_dir);
+
+    let skill = crate::marketplace::install_skill(
+        &config_copy,
+        &skill_id,
+        &version,
+        &download_url,
+        &checksum,
+    )
+    .await?;
+
+    let config_json = {
+        let config = config.lock().map_err(|e| e.to_string())?;
+        config.to_opencode_json()
+    };
+    sidecar.restart(&config_json).await?;
+
+    Ok(skill)
+}
+
+/// 设置 marketplace URL
+#[tauri::command]
+pub fn set_marketplace_url(
+    config: State<'_, Mutex<AppConfig>>,
+    url: String,
+) -> Result<(), String> {
+    let mut config = config.lock().map_err(|e| e.to_string())?;
+    config.marketplace_url = Some(url);
+    config.save_to_disk()
+}
+
+/// 获取更新状态
+#[tauri::command]
+pub fn get_update_status(
+    config: State<'_, Mutex<AppConfig>>,
+) -> Result<crate::marketplace::UpdateStatus, String> {
+    let config = config.lock().map_err(|e| e.to_string())?;
+    let app_data_dir = config.get_app_data_dir();
+    let cache = crate::marketplace::MarketplaceCache::load(app_data_dir);
+
+    Ok(crate::marketplace::UpdateStatus {
+        available_updates: cache.known_skills.len(),
+        last_checked_at: cache.last_checked_at,
+        marketplace_url: cache.marketplace_url,
+    })
+}

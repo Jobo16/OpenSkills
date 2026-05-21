@@ -12,6 +12,7 @@ export function SettingsModal({ onClose, onSaved }: SettingsModalProps) {
   const [models, setModels] = useState<ModelInfo[]>([])
   const [selectedModel, setSelectedModel] = useState("")
   const [apiKey, setApiKey] = useState("")
+  const [marketplaceUrl, setMarketplaceUrl] = useState("")
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
@@ -23,6 +24,7 @@ export function SettingsModal({ onClose, onSaved }: SettingsModalProps) {
         setModels(mdl)
         setSelectedModel(cfg.model)
         setApiKey(cfg.api_key || "")
+        setMarketplaceUrl(cfg.marketplace_url || "")
       })
       .catch(err => setError(String(err)))
       .finally(() => setLoading(false))
@@ -47,6 +49,7 @@ export function SettingsModal({ onClose, onSaved }: SettingsModalProps) {
         model: selectedModel,
         provider: currentModel?.provider || "opencode",
         api_key: needsApiKey ? apiKey.trim() : null,
+        marketplace_url: marketplaceUrl.trim() || null,
       }
       await saveConfig(newConfig)
       // 重启 server 使配置生效
@@ -122,6 +125,23 @@ export function SettingsModal({ onClose, onSaved }: SettingsModalProps) {
             </p>
           </div>
         )}
+
+        {/* Marketplace URL */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Marketplace URL (可选)
+          </label>
+          <input
+            type="url"
+            value={marketplaceUrl}
+            onChange={e => setMarketplaceUrl(e.target.value)}
+            placeholder="https://skills.marketplace.example.com"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            配置后可以自动检查和安装 Skills 更新
+          </p>
+        </div>
 
         {error && (
           <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
