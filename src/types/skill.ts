@@ -29,10 +29,7 @@ export interface MarketplaceSkill {
   description: string
   icon?: string
   author: string
-  homepage?: string
-  tags: string[]
   latest_version: string
-  downloads: number
 }
 
 export interface SkillMessage {

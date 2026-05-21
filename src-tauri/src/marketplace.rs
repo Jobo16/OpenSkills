@@ -70,8 +70,6 @@ pub struct ManifestSkill {
     pub description: String,
     pub icon: Option<String>,
     pub author: String,
-    pub homepage: Option<String>,
-    pub tags: Vec<String>,
     pub version: String,
     pub path: String,
 }
@@ -94,10 +92,7 @@ pub struct MarketplaceSkill {
     pub description: String,
     pub icon: Option<String>,
     pub author: String,
-    pub homepage: Option<String>,
-    pub tags: Vec<String>,
     pub latest_version: String,
-    pub downloads: u64,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -435,10 +430,7 @@ pub async fn browse_marketplace(
             description: s.description,
             icon: s.icon,
             author: s.author,
-            homepage: s.homepage,
-            tags: s.tags,
             latest_version: s.version,
-            downloads: 0,
         })
         .collect();
 

@@ -42,20 +42,11 @@ export function SkillDetail({ skill, onClose, onInstall, isInstalled, hasUpdate 
             <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{skill.description}</p>
           </div>
 
-          {/* 链接 */}
-          {skill.homepage && (
-            <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">链接</h3>
-              <a
-                href={skill.homepage}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
-              >
-                {skill.homepage}
-              </a>
-            </div>
-          )}
+          {/* 作者 */}
+          <div className="mb-6">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">作者</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">{skill.author}</p>
+          </div>
         </div>
 
         {/* 底部操作 */}

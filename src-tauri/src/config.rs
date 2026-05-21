@@ -102,15 +102,7 @@ impl AppConfig {
         let mut skills = Vec::new();
 
         // 扫描打包的 skills 目录
-        let bundled_skills_dir = std::env::current_exe()
-            .ok()
-            .and_then(|p| {
-                p.parent()
-                    .map(|pp| pp.join("resources").join("skills"))
-            })
-            .filter(|p| p.exists());
-
-        if let Some(dir) = bundled_skills_dir {
+        if let Some(dir) = Self::find_bundled_skills_dir() {
             Self::scan_skills_dir(&dir, &mut skills, SkillSource::Bundled)?;
         }
 
