@@ -14,15 +14,13 @@ export interface SkillUpdate {
   latest_version: string
   changelog: string
   download_url: string
-  checksum: string
-  size_bytes: number
+  size_bytes?: number
   min_app_version?: string
 }
 
 export interface UpdateStatus {
   available_updates: number
   last_checked_at?: string
-  marketplace_url?: string
 }
 
 export interface MarketplaceSkill {
@@ -35,8 +33,6 @@ export interface MarketplaceSkill {
   tags: string[]
   latest_version: string
   downloads: number
-  created_at: string
-  updated_at: string
 }
 
 export interface SkillMessage {

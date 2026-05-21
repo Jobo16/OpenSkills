@@ -175,8 +175,6 @@ pub async fn install_marketplace_skill(
     config: State<'_, Mutex<AppConfig>>,
     skill_id: String,
     version: String,
-    download_url: String,
-    checksum: String,
 ) -> Result<SkillInfo, String> {
     let (marketplace_url, app_data_dir) = {
         let config_guard = config.lock().map_err(|e| e.to_string())?;
@@ -193,8 +191,6 @@ pub async fn install_marketplace_skill(
         &config_copy,
         &skill_id,
         &version,
-        &download_url,
-        &checksum,
     )
     .await?;
 
@@ -224,12 +220,26 @@ pub fn get_update_status(
     config: State<'_, Mutex<AppConfig>>,
 ) -> Result<crate::marketplace::UpdateStatus, String> {
     let config = config.lock().map_err(|e| e.to_string())?;
-    let app_data_dir = config.get_app_data_dir();
-    let cache = crate::marketplace::MarketplaceCache::load(app_data_dir);
+    crate::marketplace::get_update_status(&config)
+}
 
-    Ok(crate::marketplace::UpdateStatus {
-        available_updates: cache.known_skills.len(),
-        last_checked_at: cache.last_checked_at,
-        marketplace_url: cache.marketplace_url,
-    })
+/// 浏览 marketplace skills
+#[tauri::command]
+pub async fn browse_marketplace(
+    config: State<'_, Mutex<AppConfig>>,
+    query: Option<String>,
+    tag: Option<String>,
+) -> Result<Vec<crate::marketplace::MarketplaceSkill>, String> {
+    let (marketplace_url, app_data_dir) = {
+        let config_guard = config.lock().map_err(|e| e.to_string())?;
+        let url = config_guard.marketplace_url.clone();
+        let dir = config_guard.get_app_data_dir().clone();
+        (url, dir)
+    };
+
+    let mut config_copy = AppConfig::default();
+    config_copy.marketplace_url = marketplace_url;
+    config_copy.set_app_data_dir(app_data_dir);
+
+    crate::marketplace::browse_marketplace(&config_copy, query, tag).await
 }

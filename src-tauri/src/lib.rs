@@ -40,6 +40,7 @@ pub fn run() {
             commands::save_file_to_temp,
             commands::check_for_updates,
             commands::install_marketplace_skill,
+            commands::browse_marketplace,
             commands::set_marketplace_url,
             commands::get_update_status,
         ])

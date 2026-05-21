@@ -1,0 +1,48 @@
+{
+  "skills": [
+    {
+      "id": "question-bank-uploader",
+      "name": "题库上传工具",
+      "description": "将 xlsx 题库文件解析并上传到题库系统",
+      "icon": "📚",
+      "author": "jobo",
+      "homepage": "https://github.com/Jobo16/skills-kit",
+      "tags": ["xlsx", "upload", "education"],
+      "version": "1.2.0",
+      "path": "skills/question-bank-uploader"
+    },
+    {
+      "id": "code-reviewer",
+      "name": "代码审查工具",
+      "description": "代码审查工具。审查代码质量、安全性和最佳实践",
+      "icon": "🔍",
+      "author": "jobo",
+      "homepage": "https://github.com/Jobo16/skills-kit",
+      "tags": ["code", "review", "development"],
+      "version": "1.0.0",
+      "path": "skills/code-reviewer"
+    },
+    {
+      "id": "data-processor",
+      "name": "数据处理工具",
+      "description": "数据处理工具。处理 CSV、JSON 等数据文件",
+      "icon": "📊",
+      "author": "jobo",
+      "homepage": "https://github.com/Jobo16/skills-kit",
+      "tags": ["data", "csv", "json", "processing"],
+      "version": "1.1.0",
+      "path": "skills/data-processor"
+    },
+    {
+      "id": "create-skill",
+      "name": "创建 Skill",
+      "description": "AI 辅助的 Skill 创建工具。帮助你通过对话创建新的 Skill",
+      "icon": "✨",
+      "author": "AI Toolbox Team",
+      "homepage": "https://github.com/Jobo16/skills-kit",
+      "tags": ["create", "development", "ai"],
+      "version": "1.0.0",
+      "path": "skills/create-skill"
+    }
+  ]
+}

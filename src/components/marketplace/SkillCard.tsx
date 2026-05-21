@@ -1,82 +1,64 @@
-interface MarketplaceSkill {
-  id: string
-  name: string
-  description: string
-  icon?: string
-  author: string
-  homepage?: string
-  tags: string[]
-  latest_version: string
-  downloads: number
-  created_at: string
-  updated_at: string
-}
+import type { MarketplaceSkill } from "../../types/skill"
 
 interface SkillCardProps {
   skill: MarketplaceSkill
   onInstall: (skill: MarketplaceSkill) => void
   onViewDetails: (skill: MarketplaceSkill) => void
-  hasUpdate?: boolean
+  isInstalled: boolean
+  hasUpdate: boolean
+  isInstalling: boolean
 }
 
-export function MarketplaceskillCard({ skill, onInstall, onViewDetails, hasUpdate }: SkillCardProps) {
+export function SkillCard({ skill, onInstall, onViewDetails, isInstalled, hasUpdate, isInstalling }: SkillCardProps) {
+  const getButtonText = () => {
+    if (isInstalling) return "安装中..."
+    if (hasUpdate) return "更新"
+    if (isInstalled) return "已安装"
+    return "安装"
+  }
+
+  const getButtonStyle = () => {
+    if (isInstalling) {
+      return "bg-gray-300 dark:bg-gray-600 text-gray-500 cursor-wait"
+    }
+    if (hasUpdate) {
+      return "bg-green-500 text-white hover:bg-green-600"
+    }
+    if (isInstalled) {
+      return "bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300"
+    }
+    return "bg-blue-500 text-white hover:bg-blue-600"
+  }
+
   return (
-    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 hover:shadow-lg transition-shadow">
-      <div className="flex items-start gap-3">
-        <div className="text-3xl">{skill.icon || "📦"}</div>
+    <div
+      className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+      onClick={() => onViewDetails(skill)}
+    >
+      <div className="flex items-center gap-3">
+        <div className="text-2xl flex-shrink-0">{skill.icon || "📦"}</div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-gray-900 dark:text-white truncate">{skill.name}</h3>
-            {hasUpdate && (
-              <span className="px-1.5 py-0.5 text-xs font-semibold text-blue-600 bg-blue-100 rounded">
-                可更新
-              </span>
+          <h3 className="font-medium text-gray-900 dark:text-white truncate">{skill.name}</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{skill.description}</p>
+        </div>
+        <div className="flex-shrink-0">
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              if (!isInstalling) {
+                onInstall(skill)
+              }
+            }}
+            disabled={isInstalling}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${getButtonStyle()}`}
+          >
+            {isInstalling && (
+              <span className="inline-block animate-spin mr-1">⟳</span>
             )}
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">{skill.description}</p>
+            {getButtonText()}
+          </button>
         </div>
       </div>
-
-      <div className="mt-3 flex items-center justify-between">
-        <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-          <span title="作者">👤 {skill.author}</span>
-          <span title="下载次数">📥 {skill.downloads}</span>
-          <span title="版本">v{skill.latest_version}</span>
-        </div>
-      </div>
-
-      <div className="mt-3 flex gap-2">
-        <button
-          onClick={() => onViewDetails(skill)}
-          className="flex-1 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
-        >
-          详情
-        </button>
-        <button
-          onClick={() => onInstall(skill)}
-          className="flex-1 px-3 py-1.5 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
-        >
-          {hasUpdate ? "更新" : "安装"}
-        </button>
-      </div>
-
-      {skill.tags.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1">
-          {skill.tags.slice(0, 3).map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-0.5 text-xs bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded"
-            >
-              {tag}
-            </span>
-          ))}
-          {skill.tags.length > 3 && (
-            <span className="px-2 py-0.5 text-xs bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded">
-              +{skill.tags.length - 3}
-            </span>
-          )}
-        </div>
-      )}
     </div>
   )
 }
