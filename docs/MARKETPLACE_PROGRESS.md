@@ -2,9 +2,9 @@
 
 ## 📊 总体进度
 
-**当前阶段**: Phase 1 & Phase 3 已完成 ✅
-**下一阶段**: Phase 2 - Marketplace MVP
-**完成度**: 60% (3/5 个核心阶段)
+**当前阶段**: Phase 1、Phase 2 (部分)、Phase 3 已完成 ✅
+**下一阶段**: Phase 2 (客户端 UI) - Marketplace 页面
+**完成度**: 75% (4/5 个核心阶段)
 
 ---
 
@@ -97,6 +97,37 @@
 
 ---
 
+### Phase 2: Marketplace MVP (60% 完成)
+
+#### 服务器端 (100% 完成) ✅
+- [x] 创建 REST API 服务器 (Express.js)
+  - `GET /api/skills` - 列出所有 skills
+  - `GET /api/skills/{id}` - 获取 skill 详情
+  - `GET /api/skills/{id}/{version}/download` - 下载 skill
+  - `POST /api/skills/updates` - 批量更新检查
+  - `GET /api/skills/categories` - 列出分类
+  - `POST /api/skills` - 发布新 skill
+  - `POST /api/skills/{id}/versions` - 添加新版本
+- [x] 内存数据库和示例数据
+- [x] 文件上传支持 (multer)
+- [x] SHA-256 校验和计算
+- [x] 版本比较逻辑
+- [x] 完整的错误处理
+- [x] 测试脚本和文档
+
+#### 客户端 UI (0% 待开发)
+- [ ] 创建 Marketplace 页面组件
+  - `MarketplacePage.tsx` - 主页面
+  - `SkillCard.tsx` - Skill 卡片
+  - `SkillDetail.tsx` - 详情视图
+  - `MarketplaceSearch.tsx` - 搜索组件
+- [ ] 实现浏览和搜索功能
+- [ ] 添加分类过滤
+- [ ] 实现安装进度显示
+- [ ] 添加用户评分和评论（可选）
+
+---
+
 ### 文档和配置
 
 - [x] 更新 `README.md`
@@ -114,31 +145,41 @@
 
 ### 新增文件
 ```
-src-tauri/src/marketplace.rs          ~370 行
-src/hooks/useUpdates.ts               ~80 行
-src/components/marketplace/UpdateBadge.tsx  ~20 行
+src-tauri/src/marketplace.rs                    ~370 行
+src/hooks/useUpdates.ts                         ~80 行
+src/components/marketplace/UpdateBadge.tsx       ~20 行
 src-tauri/resources/skills/create-skill/SKILL.md  ~250 行
+marketplace-server/index.js                     ~350 行
+marketplace-server/test.js                      ~100 行
+marketplace-server/README.md                    ~200 行
 ```
 
 ### 修改文件
 ```
-src-tauri/src/config.rs               +50 行
-src-tauri/src/commands.rs             +100 行
-src-tauri/src/lib.rs                  +10 行
-src/lib/tauri.ts                      +80 行
-src/types/skill.ts                    +40 行
-src/components/session/SkillPicker.tsx  +20 行
-src/components/settings/SettingsModal.tsx  +30 行
-README.md                             +40 行
-CHANGELOG.md                          +80 行
+src-tauri/src/config.rs                         +50 行
+src-tauri/src/commands.rs                       +100 行
+src-tauri/src/lib.rs                            +10 行
+src/lib/tauri.ts                                +80 行
+src/types/skill.ts                              +40 行
+src/components/session/SkillPicker.tsx          +20 行
+src/components/settings/SettingsModal.tsx       +30 行
+README.md                                       +40 行
+CHANGELOG.md                                    +80 行
 ```
 
 ### 依赖更新
 ```toml
+# Rust 依赖
 reqwest = { version = "0.12", features = ["json"] }
 tokio = { version = "1", features = ["full"] }
 chrono = "0.4"
 sha2 = "0.10"
+
+# Node.js 依赖 (marketplace-server)
+express = "^4.18.0"
+cors = "^2.8.0"
+multer = "^1.4.0"
+uuid = "^9.0.0"
 ```
 
 ---
@@ -163,23 +204,9 @@ sha2 = "0.10"
 
 ## 🚀 下一步工作
 
-### Phase 2: Marketplace MVP (待开发)
+### Phase 2: Marketplace MVP - 客户端 UI (待开发)
 
 **目标**: 完整的 Marketplace 浏览和搜索功能
-
-#### 服务器端
-- [ ] 创建 REST API 服务器
-  - `GET /api/skills` - 列出所有 skills
-  - `GET /api/skills/{id}` - 获取 skill 详情
-  - `GET /api/skills/{id}/{version}/download` - 下载 skill
-  - `POST /api/skills/updates` - 批量更新检查
-  - `GET /api/skills/categories` - 列出分类
-- [ ] 创建数据库 schema
-  - Skills 表
-  - Versions 表
-  - Downloads 表
-- [ ] 实现身份验证（可选）
-- [ ] 创建管理界面（可选）
 
 #### 客户端
 - [ ] 创建 Marketplace 页面组件
@@ -191,6 +218,11 @@ sha2 = "0.10"
 - [ ] 添加分类过滤
 - [ ] 实现安装进度显示
 - [ ] 添加用户评分和评论（可选）
+
+#### 集成测试
+- [ ] 客户端与服务器集成测试
+- [ ] 安装流程端到端测试
+- [ ] 更新流程端到端测试
 
 ### Phase 4: 完整 Marketplace 功能 (规划中)
 
@@ -282,10 +314,11 @@ sha2 = "0.10"
 ## 📅 时间线
 
 - **2026-05-21**: Phase 1 & Phase 3 完成
-- **下一步**: Phase 2 - Marketplace MVP
+- **2026-05-21**: Phase 2 (服务器端) 完成
+- **下一步**: Phase 2 (客户端 UI) - Marketplace 页面
 - **预计完成**: 待定
 
 ---
 
-**最后更新**: 2026-05-21
+**最后更新**: 2026-05-21 14:30
 **维护者**: AI Toolbox Team
