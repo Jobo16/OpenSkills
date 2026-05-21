@@ -6,6 +6,7 @@ import { Sidebar } from "./components/layout/Sidebar"
 import { SessionPage } from "./components/session/SessionPage"
 import { SkillPicker } from "./components/session/SkillPicker"
 import { SettingsModal } from "./components/settings/SettingsModal"
+import { MarketplacePage } from "./components/marketplace/MarketplacePage"
 import { listSkills as tauriListSkills } from "./lib/tauri"
 
 function SessionRoute() {
@@ -30,6 +31,7 @@ function SessionRoute() {
   const [skills, setSkills] = useState<any[]>([])
   const [showSkillPicker, setShowSkillPicker] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
+  const [showMarketplace, setShowMarketplace] = useState(false)
   const [pendingCommand, setPendingCommand] = useState<string | null>(null)
 
   // 加载 skills（统一通过 Tauri 后端读取，与删除操作一致）
@@ -119,6 +121,7 @@ function SessionRoute() {
         onUpdateTitle={updateSessionTitle}
         onDeleteSession={deleteSession}
         onOpenSettings={() => setShowSettings(true)}
+        onOpenMarketplace={() => setShowMarketplace(true)}
       />
       <SessionPage
         sessionId={sessionId}
@@ -144,6 +147,9 @@ function SessionRoute() {
           onClose={() => setShowSettings(false)}
           onSaved={loadSkills}
         />
+      )}
+      {showMarketplace && (
+        <MarketplacePage onClose={() => setShowMarketplace(false)} />
       )}
     </div>
   )
