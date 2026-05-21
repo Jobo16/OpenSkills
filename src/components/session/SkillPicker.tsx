@@ -7,6 +7,7 @@ interface Skill {
   description?: string
   location?: string
   version?: string
+  source?: "bundled" | "user" | "marketplace"
 }
 
 interface SkillPickerProps {
@@ -54,6 +55,10 @@ export function SkillPicker({ skills, onSelect, onClose, onRefresh }: SkillPicke
     return updates.some(u => u.skill_id === skillName)
   }
 
+  const isBundled = (skill: Skill) => {
+    return skill.source === "bundled"
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onClose}>
       <div
@@ -86,31 +91,51 @@ export function SkillPicker({ skills, onSelect, onClose, onRefresh }: SkillPicke
             skills.map(skill => (
               <div
                 key={skill.name}
-                className="group w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-start gap-2 cursor-pointer"
-                onClick={() => { onSelect(skill.name); onClose() }}
+                className={`group w-full text-left px-3 py-2 rounded-lg transition-colors flex items-start gap-2 ${
+                  isBundled(skill)
+                    ? "bg-gray-50 dark:bg-gray-700/50 cursor-default"
+                    : "hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                }`}
+                onClick={() => {
+                  if (!isBundled(skill)) {
+                    onSelect(skill.name)
+                    onClose()
+                  }
+                }}
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">{skill.name}</span>
-                    {hasUpdate(skill.name) && (
+                    <span className={`text-sm font-medium ${isBundled(skill) ? "text-gray-400 dark:text-gray-500" : ""}`}>
+                      {skill.name}
+                    </span>
+                    {isBundled(skill) && (
+                      <span className="px-1.5 py-0.5 text-xs text-gray-400 bg-gray-200 dark:bg-gray-600 rounded">
+                        内置
+                      </span>
+                    )}
+                    {hasUpdate(skill.name) && !isBundled(skill) && (
                       <span className="px-1.5 py-0.5 text-xs font-semibold text-blue-600 bg-blue-100 rounded">
                         可更新
                       </span>
                     )}
                   </div>
                   {skill.description && (
-                    <div className="text-xs text-gray-400 mt-0.5 truncate">{skill.description}</div>
+                    <div className={`text-xs mt-0.5 truncate ${isBundled(skill) ? "text-gray-400 dark:text-gray-500" : "text-gray-400"}`}>
+                      {skill.description}
+                    </div>
                   )}
                 </div>
-                <button
-                  onClick={(e) => handleDelete(skill.name, e)}
-                  className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-opacity flex-shrink-0 mt-0.5"
-                  title="删除 skill"
-                >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
+                {!isBundled(skill) && (
+                  <button
+                    onClick={(e) => handleDelete(skill.name, e)}
+                    className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-opacity flex-shrink-0 mt-0.5"
+                    title="删除 skill"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                )}
               </div>
             ))
           )}
