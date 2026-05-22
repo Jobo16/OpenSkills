@@ -17,6 +17,9 @@ target/
 *.rpm
 *.AppImage
 
+# Allow Windows binary in binaries directory (OpenCode sidecar)
+!src-tauri/binaries/*.exe
+
 # IDE
 .vscode/
 .idea/
