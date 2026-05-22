@@ -14,6 +14,9 @@
     "tauri:build:mac": "tauri build --target universal-apple-darwin",
     "tauri:build:win": "tauri build --target x86_64-pc-windows-msvc",
     "tauri:build:linux": "tauri build --target x86_64-unknown-linux-gnu",
+    "setup": "bun run setup:deps && bun run setup:opencode",
+    "setup:deps": "bun install && cargo install tauri-cli",
+    "setup:opencode": "bash scripts/download-opencode.sh",
     "check": "tsc --noEmit",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",
@@ -22,7 +25,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "clean": "rm -rf dist node_modules",
+    "clean": "rm -rf dist node_modules src-tauri/target src-tauri/binaries",
     "reinstall": "rm -rf node_modules bun.lock && bun install"
   },
   "dependencies": {
